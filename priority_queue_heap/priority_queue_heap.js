@@ -1,7 +1,7 @@
 var _ = require('lodash');
 var util = require('util');
 
-module.exports.priority_queue_sorted_list = (function() {
+module.exports.priority_queue_heaps = (function() {
 
 	function PriorityQueue(initial) {
 		this.sorted = true;
