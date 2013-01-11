@@ -1,18 +1,7 @@
 var _ = require('lodash');
 var Backtracker = require('./../backtracker/backtracker.js').StackBacktracker;
 
-function tour_length(cities, tour) {
-	var cities_modulo = cities.length; 
-	return (_.reduce(tour, function(memo, value, index) {
-		var city = cities[tour[index]];
-		var next = cities[tour[(index + 1) % cities_modulo]];
-		var x = (city.x > next.x) ? (city.x - next.x) : (next.x - city.x);
-		var y = (city.y > next.y) ? (city.y - next.y) : (next.y - city.y);
-		return memo + Math.sqrt(x*x + y*y);
-	}, 0));
-}
-
-module.exports.tsp_brute_force = function(cities) {
+module.exports.tsp_brute_force = function(cities, tour_length) {
 		var basic_tour = _.range(cities.length);
 		var best_tour = _.range(cities.length);
 		var best_dist = tour_length(cities, _.range(cities.length));
