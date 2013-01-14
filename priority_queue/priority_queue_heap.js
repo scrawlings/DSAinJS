@@ -48,11 +48,11 @@ module.exports.priority_queue_heaps = (function() {
 		var right = this.right_child(odd_ball);
 
 		if (
-			right < this.heap.length
+			right < this.heap.length // still in the heap
 			&&
-			this.heap[left] > this.heap[right]
+			this.heap[left] > this.heap[right] // right side is the small side and we prefer that
 			&&
-			this.heap[odd_ball] > this.heap[right];
+			this.heap[odd_ball] > this.heap[right]; // the item being inserted is still too big
 		) {
 			var temp = this.heap[odd_ball];
 			this.heap[odd_ball] = this.heap[right];
@@ -61,9 +61,9 @@ module.exports.priority_queue_heaps = (function() {
 			this.bubble_down(right);
 		} else {
 			if (
-				left < this.heap[length]
+				left < this.heap.length // still in the heap
 				&&
-				this.heap[odd_ball] > this.heap[left]
+				this.heap[odd_ball] > this.heap[left] // and this left side is smallest and the item is large
 			) {
 				var temp = this.heap[odd_ball];
 				this.heap[odd_ball] = this.heap[left];
