@@ -19,7 +19,7 @@ module.exports.priority_queue_sorted_list = (function() {
 	}
 
 
-	PriorityQueue.prototype.take = function(item) {
+	PriorityQueue.prototype.take = function() {
 		if (this.sorted == false) {
 			this.queue.sort();
 			this.sorted = true;
