@@ -1,15 +1,19 @@
 var _ = require('lodash');
 var util = require('util');
 
-module.exports.priority_queue_heaps = (function() {
+module.exports.priority_queue_heap = (function() {
 
 	function PriorityQueue(initial) {
-		this.heap = initial.slice(0);
-		this.heapify();
+		if (!!initial) {
+			this.heap = initial.slice(0);
+			this.heapify();
+		} else {
+			this.heap = [];
+		}
 	}
 
 	PriorityQueue.prototype.heapify = function() {
-		for (int n = this.heap.length; n >= 0 ; n--) {
+		for (var n = this.heap.length; n >= 0 ; n--) {
 			this.bubble_up(n);
 		}
 	}
@@ -24,7 +28,7 @@ module.exports.priority_queue_heaps = (function() {
 		if (this.heap[parent_index] >= this.heap[child_index]) {
 			var temp = this.heap[parent_index];
 			this.heap[parent_index] = this.heap[child_index];
-			this.heap[child_index] = this.heap[parent_index];
+			this.heap[child_index] = temp;
 		}
 		if (parent_index > 0) {
 			this.bubble_up(parent_index);
@@ -52,7 +56,7 @@ module.exports.priority_queue_heaps = (function() {
 			&&
 			this.heap[left] > this.heap[right] // right side is the small side and we prefer that
 			&&
-			this.heap[odd_ball] > this.heap[right]; // the item being inserted is still too big
+			this.heap[odd_ball] > this.heap[right] // the item being inserted is still too big
 		) {
 			var temp = this.heap[odd_ball];
 			this.heap[odd_ball] = this.heap[right];
