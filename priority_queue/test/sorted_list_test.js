@@ -2,6 +2,7 @@ var assert = require('assert');
 var should = require('should');
 var _ = require('lodash');
 var Q = require('./../priority_queue_sorted_list').priority_queue_sorted_list;
+var util = require('util');
 
 describe('priority_queue_sorted_list', function() {
   it('should the added items in order from smallest to largest', function() {
@@ -39,5 +40,21 @@ describe('priority_queue_sorted_list', function() {
     }
 
     _.zip(expected,actual).forEach(function(pair){assert.equal(pair[0],pair[1]);});
+  });
+
+  it('sorts random lists in numeric order', function(){
+    var initial = (_(_.range(100))
+                    .map( function() { return (Math.random()*100)>>0; } )
+                    .value());
+
+    var q = new Q(initial);
+    var actual = [];
+    for (var x = 0; x < initial.length; x++) {
+      actual.push(q.take());
+    }
+    
+    for (var i = 0; i < actual.length - 2; i++) {
+      assert(actual[i] <= actual[i+1]);
+    }
   });
 });

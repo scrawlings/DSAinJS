@@ -7,7 +7,7 @@ module.exports.priority_queue_sorted_list = (function() {
 		this.sorted = true;
 		if (!!initial) {
 			this.queue = initial.slice(0);
-			this.queue.sort();
+			this.queue.sort(function(a,b){return a-b});
 		} else {
 			this.queue = [];
 		}	
@@ -21,7 +21,7 @@ module.exports.priority_queue_sorted_list = (function() {
 
 	PriorityQueue.prototype.take = function() {
 		if (this.sorted == false) {
-			this.queue.sort();
+			this.queue.sort(function(a,b){return a-b});
 			this.sorted = true;
 		}
 		return this.queue.shift();

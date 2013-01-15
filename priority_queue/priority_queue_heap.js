@@ -13,7 +13,7 @@ module.exports.priority_queue_heap = (function() {
 	}
 
 	PriorityQueue.prototype.heapify = function() {
-		for (var n = this.heap.length; n >= 0 ; n--) {
+		for (var n = (this.heap.length - 1); n >= 0 ; n--) {
 			this.bubble_up(n);
 		}
 	}
@@ -24,11 +24,9 @@ module.exports.priority_queue_heap = (function() {
 	}
 
 	PriorityQueue.prototype.bubble_up = function(child_index) {
-		var parent_index = this.parent_index();
-		if (this.heap[parent_index] >= this.heap[child_index]) {
-			var temp = this.heap[parent_index];
-			this.heap[parent_index] = this.heap[child_index];
-			this.heap[child_index] = temp;
+		var parent_index = this.parent_index(child_index);
+		if (this.heap[parent_index] > this.heap[child_index]) {
+			this.bubble_down(parent_index);
 		}
 		if (parent_index > 0) {
 			this.bubble_up(parent_index);
@@ -36,7 +34,7 @@ module.exports.priority_queue_heap = (function() {
 	}
 
 	PriorityQueue.prototype.parent_index = function(child_index) {
-		return (child_index / 2)>>0;
+		return (((child_index + 1) / 2)>>0) - 1;
 	}
 
 	PriorityQueue.prototype.right_child = function(parent_index) {
@@ -48,33 +46,34 @@ module.exports.priority_queue_heap = (function() {
 	}
 
 	PriorityQueue.prototype.bubble_down = function(odd_ball) {
-		var left = this.left_child(odd_ball);
-		var right = this.right_child(odd_ball);
+		var left_index = this.left_child(odd_ball);
+		var right_index = this.right_child(odd_ball);
+		var left = undefined;
+		var right = undefined;
+		
+		var item = this.heap[odd_ball];
+		var index = undefined;
 
-		if (
-			right < this.heap.length // still in the heap
-			&&
-			this.heap[left] > this.heap[right] // right side is the small side and we prefer that
-			&&
-			this.heap[odd_ball] > this.heap[right] // the item being inserted is still too big
-		) {
+	
+		if (left_index < this.heap.length) {
+			left = this.heap[left_index];
+		}
+		if (right_index < this.heap.length) {
+			right = this.heap[right_index];
+		}
+
+		if (item > right && left > right) {
+			index = right_index;
+		} else if (item > left) {
+			index = left_index;
+		}
+
+		if (!!index) {
 			var temp = this.heap[odd_ball];
-			this.heap[odd_ball] = this.heap[right];
-			this.heap[right] = temp;
+			this.heap[odd_ball] = this.heap[index];
+			this.heap[index] = temp;
 
-			this.bubble_down(right);
-		} else {
-			if (
-				left < this.heap.length // still in the heap
-				&&
-				this.heap[odd_ball] > this.heap[left] // and this left side is smallest and the item is large
-			) {
-				var temp = this.heap[odd_ball];
-				this.heap[odd_ball] = this.heap[left];
-				this.heap[left] = temp;
-
-				this.bubble_down(left);
-			}
+			this.bubble_down(index);
 		}
 	}
 
