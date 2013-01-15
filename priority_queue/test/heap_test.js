@@ -43,25 +43,20 @@ describe('priority_queue_sorted_list', function() {
   });
 
   it('should produce sorted tranches of items', function() {
-    var item_count=0;
-    var items_taken=0;
-    var q = new Q(_(_.range(10000)).map(function(){ item_count++; return (Math.random()*100)>>0; }).value());
+
+    var q = new Q(_(_.range(10000)).map(function(){ return (Math.random()*100)>>0; }).value());
     for (var i = 0; i < 1000; i++) {
       var result = [];
       for (var j = 0; j < 100; j++) {
-        item_count++;
         q.add((Math.random()*100)>>0);
       }
-      for (var j = 0; j < 100; j++) {
-        items_taken++;
+      for (var k = 0; k < 100; k++) {
         result.push(q.take());
       }
-      for (var k = 0; k < (result.length - 2); k++) {
-        assert(result[k] <= result[k++]);
+      for (var l = 0; l < (result.length - 1); l++) {
+        assert(result[l] <= result[l+1]);
       }
     }
-    util.puts("total items added: " + item_count);
-    util.puts("total items taken: " + items_taken);
   })
 
 });
