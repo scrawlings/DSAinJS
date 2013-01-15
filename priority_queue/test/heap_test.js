@@ -2,6 +2,7 @@ var assert = require('assert');
 var should = require('should');
 var _ = require('lodash');
 var Q = require('./../priority_queue_heap').priority_queue_heap;
+var util = require('util');
 
 describe('priority_queue_sorted_list', function() {
   it('should the added items in order from smallest to largest', function() {
@@ -40,5 +41,27 @@ describe('priority_queue_sorted_list', function() {
 
     _.zip(expected,actual).forEach(function(pair){assert.equal(pair[0],pair[1]);});
   });
+
+  it('should produce sorted tranches of items', function() {
+    var item_count=0;
+    var items_taken=0;
+    var q = new Q(_(_.range(10000)).map(function(){ item_count++; return (Math.random()*100)>>0; }).value());
+    for (var i = 0; i < 1000; i++) {
+      var result = [];
+      for (var j = 0; j < 100; j++) {
+        item_count++;
+        q.add((Math.random()*100)>>0);
+      }
+      for (var j = 0; j < 100; j++) {
+        items_taken++;
+        result.push(q.take());
+      }
+      for (var k = 0; k < (result.length - 2); k++) {
+        assert(result[k] <= result[k++]);
+      }
+    }
+    util.puts("total items added: " + item_count);
+    util.puts("total items taken: " + items_taken);
+  })
 
 });
