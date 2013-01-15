@@ -68,7 +68,7 @@ module.exports.priority_queue_heap = (function() {
 			index = left_index;
 		}
 
-		if (!!index) {
+		if (index) {
 			var temp = this.heap[odd_ball];
 			this.heap[odd_ball] = this.heap[index];
 			this.heap[index] = temp;
@@ -79,13 +79,15 @@ module.exports.priority_queue_heap = (function() {
 
 	PriorityQueue.prototype.take = function() {
 		if (this.heap.length > 0) {
-			var item = this.heap.shift();
-			this.heap.unshift(this.heap.pop());
-			this.bubble_down(0);
+			var item = this.heap[0];
+			if (this.heap.length > 1) {
+				this.heap[0] = this.heap.pop();
+				this.bubble_down(0);
+			} else {
+				this.heap = [];
+			}
 			return item;
 		}
-
-		throw "empty queue";
 	}
 
 	return PriorityQueue;

@@ -57,4 +57,23 @@ describe('priority_queue_sorted_list', function() {
       assert(actual[i] <= actual[i+1]);
     }
   });
+
+  
+  it('should produce sorted tranches of items', function() {
+
+    var q = new Q(_(_.range(10000)).map(function(){ return (Math.random()*100)>>0; }).value());
+    for (var i = 0; i < 1000; i++) {
+      var result = [];
+      for (var j = 0; j < 100; j++) {
+        q.add((Math.random()*100)>>0);
+      }
+      for (var k = 0; k < 100; k++) {
+        result.push(q.take());
+      }
+      for (var l = 0; l < (result.length - 1); l++) {
+        assert(result[l] <= result[l+1]);
+      }
+    }
+  });
+
 });

@@ -57,6 +57,6 @@ describe('priority_queue_sorted_list', function() {
         assert(result[l] <= result[l+1]);
       }
     }
-  })
+  });
 
 });
