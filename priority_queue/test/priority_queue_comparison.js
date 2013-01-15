@@ -12,8 +12,6 @@ describe('comparing priority queue implementations', function() {
                         .map( function() { return (Math.random()*100)>>0; } )
                         .value());
 
-    util.puts(data_set.initial+"\n");
-
     data_set.batches = (_(_.range(1000))
                         .map( function() { 
                           return (_(_.range(100))
@@ -38,7 +36,6 @@ describe('comparing priority queue implementations', function() {
       });
     })
 
-    
     assert.deepEqual(results.qh,results.qsl);
     
   });

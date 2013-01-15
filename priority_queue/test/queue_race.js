@@ -25,8 +25,8 @@ function queue_driver(Q, initial, batches, batch_size) {
 
 describe('priority_queue_sorted_list', function() {
     it('should show some cross over that makes the heap better than the list', function() {
-    	var heap_time = queue_driver(QH, 1000, 1000, 1000);
-    	var list_time = queue_driver(QL, 1000, 1000, 1000);
+    	var heap_time = queue_driver(QH, 100, 100000, 2);
+    	var list_time = queue_driver(QL, 100, 100000, 2);
 
     	util.puts("heap time: "+heap_time);
     	util.puts("list time: "+list_time);
