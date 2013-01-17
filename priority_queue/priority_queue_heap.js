@@ -13,7 +13,9 @@ module.exports.priority_queue_heap = (function() {
 	}
 
 	PriorityQueue.prototype.heapify = function() {
-		for (var n = (this.heap.length - 1); n >= 0 ; n--) {
+		var last = this.heap.length - 1;
+		var mid = (this.heap.length / 2)>>0;
+		for (var n = last; n >= mid ; n--) {
 			this.bubble_up(n);
 		}
 	}
