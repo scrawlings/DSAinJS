@@ -23,7 +23,7 @@ module.exports.box_stacker = function(boxes) {
 
 	for (var i = 0; i < boxes.length; i++) {
 		boxes[i].key = i;
-		boxes[i].smaller_than = [];
+		boxes[i].smaller_than = 0;
 		boxes[i].larger_than = [];
 	}
 
@@ -31,26 +31,25 @@ module.exports.box_stacker = function(boxes) {
 		for (var j = i+1; j < boxes.length; j++) {
 			var diff = compare_boxes(boxes[i], boxes[j]);
 			if (diff < 0) {
-				boxes[i].smaller_than.push(boxes[j]);
+				boxes[i].smaller_than++;
 				boxes[j].larger_than.push(boxes[i]);
 			} else if (diff > 0) {
 				boxes[i].larger_than.push(boxes[j]);
-				boxes[j].smaller_than.push(boxes[i]);
+				boxes[j].smaller_than++;
 			}
 		}
 	}
 
 	var largest_boxes = [];
 	for (var i = 0; i < boxes.length; i++) {
-		if (boxes[i].smaller_than.length == 0) {
+		if (boxes[i].smaller_than == 0) {
 			largest_boxes.push(boxes[i])
 		}
 	}
 
-	var find_longest_memo = {};
 	function find_longest(base_box) {
-		if (find_longest_memo[base_box.key]) {
-			return find_longest_memo[base_box.key];
+		if (find_longest.memo[base_box.key]) {
+			return find_longest.memo[base_box.key];
 		}
 
 		var possible_next_boxes = base_box.larger_than;
@@ -62,10 +61,11 @@ module.exports.box_stacker = function(boxes) {
 			}
 		}
 
-		find_longest_memo[base_box.key] = [base_box].concat(longest_stack);
-		return find_longest_memo[base_box.key];
-	//	return [base_box].concat(longest_stack);;
+		find_longest.memo[base_box.key] = [base_box].concat(longest_stack);
+		return find_longest.memo[base_box.key];
+//		return [base_box].concat(longest_stack);
 	}
+	find_longest.memo = {};
 
 	var longest_stack = [boxes[0]];
 	for (var i = 0; i < largest_boxes.length; i++) {
