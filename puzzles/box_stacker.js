@@ -63,7 +63,6 @@ module.exports.box_stacker = function(boxes) {
 
 		find_longest.memo[base_box.key] = [base_box].concat(longest_stack);
 		return find_longest.memo[base_box.key];
-//		return [base_box].concat(longest_stack);
 	}
 	find_longest.memo = {};
 
