@@ -31,8 +31,8 @@ module.exports.box_stacker = function(boxes) {
 		return undefined;
 	};
 
-util.puts('about to augment boxes');
 	for (var i = 0; i < boxes.length; i++) {
+		boxes[i].key = i;
 		boxes[i].best_smaller = undefined;
 		boxes[i].smaller_height = 0;
 		boxes[i].smaller_than = 0;
@@ -40,9 +40,6 @@ util.puts('about to augment boxes');
 		boxes[i].larger_than_total = 0;
 	}
 
-util.puts('about to determine graph of links to smaller boxes');
-util.puts('  this runs out of memory');
-util.puts('  the adjacency list could be replaced by a typed array ');
 	for (var i = 0; i < boxes.length - 1; i++) {
 		for (var j = i+1; j < boxes.length; j++) {
 			var diff = compare_boxes(boxes[i], boxes[j]);
@@ -58,7 +55,6 @@ util.puts('  the adjacency list could be replaced by a typed array ');
 		}
 	}
 
-util.puts('about to scan for the largest boxes');
 	var largest_boxes = [];
 	for (var i = 0; i < boxes.length; i++) {
 		if (boxes[i].smaller_than == 0) {
@@ -87,8 +83,6 @@ util.puts('about to scan for the largest boxes');
 		return base_box.smaller_height;
 	}
 
-
-util.puts('about to check the length of stacks about the largest boxes');
 	var longest_stack = 0;
 	var longest_base = 0;
 	for (var i = 0; i < largest_boxes.length; i++) {
@@ -99,8 +93,6 @@ util.puts('about to check the length of stacks about the largest boxes');
 		}
 	}
 
-
-util.puts('about to build the stack');
 	var box = boxes[longest_base];
 	var stack = [box];
 	while (box.best_smaller) {
